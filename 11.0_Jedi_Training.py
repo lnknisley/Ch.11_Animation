@@ -26,11 +26,7 @@ CHAPTER 11 FINAL CODE QUESTIONS: (10pts)
 
 10.) What is this code checking? if self.pos_x < self.rad
 '''
-
-
-
-
-
+from arcade import draw_rectangle_filled
 
 '''
 30 BOX BOUNCE PROGRAM (20pts)
@@ -58,9 +54,77 @@ Helpful Hints:
 '''
 
 
+import arcade
+import random
+
+class Box:
+    def __init__(self, col_1, col_2, col_3, col_4):
+        self.size = random.randint(10, 51)
+        self.x = random.randint(30 + (2 * self.size), 571 - (2 * self.size))
+        self.y = random.randint(30 + (2 * self.size), 571 - (2 * self.size))
+        self.dx = random.randint(-300, 301)
+        self.dy = random.randint(-300, 301)
+        self.color = arcade.color.BLACK
+        self.color_bottom = col_1
+        self.color_top = col_2
+        self.color_left = col_3
+        self.color_right = col_4
+
+    def draw_box(self):
+        arcade.draw_rectangle_filled(self.x, self.y, self.size, self.size, self.color)
+
+    def update_box(self, dt):
+        if self.x <= 29 + (self.size * 0.5):
+            self.dx *= -1
+            self.color = self.color_left
+        if self.x >= 571 - (self.size * 0.5):
+            self.dx *= -1
+            self.color = self.color_right
+        if self.y <= 29 + (self.size * 0.5):
+            self.dy *= -1
+            self.color = self.color_bottom
+        if self.y >= 571 - (self.size * 0.5):
+            self.dy *= -1
+            self.color = self.color_top
+
+        self.x += self.dx * dt
+        self.y += self.dy * dt
 
 
+class MyGame(arcade.Window):
+    def __init__(self, width, height, title):
+        super().__init__(width, height, title)
+        arcade.set_background_color(arcade.color.ASH_GREY)
+        self.w = width
+        self.h = height
+        self.c1 = (random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
+        self.c2 = (random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
+        self.c3 = (random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
+        self.c4 = (random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
+        self.box_list = []
+        for i in range(30):
+            box = Box(self.c1, self.c2, self.c3, self.c4)
+            self.box_list.append(box)
 
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_rectangle_filled(self.w / 2, 15, self.w - 60, 30, self.c1, 0)
+        arcade.draw_rectangle_filled(self.w / 2, self.h - 15, self.w - 60, 30, self.c2, 0)
+        arcade.draw_rectangle_filled(15, self.h / 2, 30, self.h - 60, self.c3, 0)
+        arcade.draw_rectangle_filled(self.h - 15, self.h / 2, 30, self.h - 60, self.c4, 0)
+        for box in self.box_list:
+            box.draw_box()
+
+    def on_update(self, dt):
+        for box in self.box_list:
+            box.update_box(dt)
+
+def main():
+    window = MyGame(600, 600, "30 Boxes")
+    arcade.run()
+
+if __name__ == "__main__":
+    main()
 
 '''
 SNOWFALL  (20pts)
@@ -79,3 +143,52 @@ the following requirements:
 9.) Color snowflake #1 red just for fun.
 10.) All other snowflakes should be white.
 '''
+
+class Snowflake:
+    def __init__(self, color):
+        self.rad = random.randint(1, 3)
+        self.x = random.randint(self.rad, 601 - self.rad)
+        self.y = random.randint(self.rad, 701 - self.rad)
+        self.dy = random.randint(1, 4)
+        self.color = color
+
+    def draw_snowflake(self):
+        arcade.draw_circle_filled(self.x, self.y, self.rad, self.color, 0, 6)
+
+    def update_snowflake(self):
+        self.y -= self.dy
+        if self.y < -4:
+            self.y = 628
+
+class MyGame(arcade.Window):
+    def __init__(self, width, height, title):
+        super().__init__(width, height, title)
+        arcade.set_background_color(arcade.color.BLACK)
+        self.w = width
+        self.h = height
+        self.flakes = []
+        for i in range(300):
+            if i == 0:
+                snow = Snowflake(arcade.color.RED)
+                self.flakes.append(snow)
+            else:
+                snow = Snowflake(arcade.color.WHITE)
+                self.flakes.append(snow)
+
+    def on_draw(self):
+        arcade.start_render()
+        for snow in self.flakes:
+            snow.draw_snowflake()
+        draw_rectangle_filled(self.w * 0.5, self.h * 0.5, self.w, 10, arcade.color.BURLYWOOD)
+        draw_rectangle_filled(self.w * 0.5, self.h * 0.5, 10, self.h, arcade.color.BURLYWOOD)
+
+    def on_update(self, dt):
+        for snow in self.flakes:
+            snow.update_snowflake()
+
+def main():
+    window = MyGame(600, 600, "Snowfall")
+    arcade.run()
+
+if __name__ == "__main__":
+    main()
