@@ -23,7 +23,7 @@ It adds the dy, the change in y, to the ball's y value
 8.) What is the width of the window?
 600
 9.) What is this code checking?  self.pos_y > SH - self.rad:
-If the position of the box is touching the bottom of the screen
+If the position of the box is touching the top of the screen
 10.) What is this code checking? if self.pos_x < self.rad
 if the position of the box is touching the left of the screen
 '''
