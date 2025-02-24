@@ -7,24 +7,25 @@
 CHAPTER 11 FINAL CODE QUESTIONS: (10pts)
 --------------------------------
 1.) Where is the ball's original location?
-
+It's randomized
 2.) What are the variables dx and dy?
-
+The change in the x and change in the y added each frame
 3.) How many pixels/sec does the ball move in the x-direction?
-
+At best +/-300 pixels per second
 4.) How many pixels/sec does the ball move in the y-direction?
-
+At best +/-300 pixels per second
 5.) Which method is run 60 times/second?
-
+The update method
 6.) What does this code do?   self.dx *= -1
-
+It reverses the direction of the ball's x
 7.) What does this code do?  self.pos_y += self.dy
-
+It adds the dy, the change in y, to the ball's y value
 8.) What is the width of the window?
-
+600
 9.) What is this code checking?  self.pos_y > SH - self.rad:
-
+If the position of the box is touching the bottom of the screen
 10.) What is this code checking? if self.pos_x < self.rad
+if the position of the box is touching the left of the screen
 '''
 from arcade import draw_rectangle_filled
 
